@@ -69,6 +69,78 @@ This completes all necessary configurations.  You can rebuild the `ear` to make 
 
 ## Write unit test cases
 
+Our goal is to write unit tests for all rules and rule functions in a BE application.  However, compared to functional or object oriented programming, rule-based programming is the hardest to unit test.
+ - For functions, the best testable functions are pure functions that do not have any side effects, but rule-based systems are mostly based on side effects, and so most rule functions are **not** pure functions, and thus harder to write unit tests.
+ - For rules, they are not only based on side effects by updating objects in the working memory, but also they can execute in a nondeterministic sequence.
+
+Besides, BusinessEvents applications have a few more properties that must be considered carefully in unit tests.
+ - Concepts and Events are 2 different types of data structures.  Concepts are typically mutable data, and persisted and shared globally across multiple threads and JVMs.  Events are usually immutable data, transient and not shared by multiple threads, although they can be sent between different threads.
+ - Rule-functions can run in 2 different contexts, i.e., preprocessor or rule context.  A rule-function for preprocessor context behaves similar to a pure function because it cannot update Concepts/Scorecards to create side-effects, although it can update other shared data structure, i.e., in-memory  mutable collections (List, Set, or Map).
+ - Rules can also be executed in the 2 different contexts.  However, when Cache-Only and Concurrent-RTC are used, we can use preprocessor context to isolate the test of rules.
+
+In this tutorial, all tests are executed in preprocessor context.  Examples for rule context and more BE data types can be found in [DataTypeDemo](https://github.com/yxuco/DataTypeDemo).
+
+As a covention, we add all unit test functions under a separate folder `/Test`.  We explain only one of the tests for a rule `ApplyDebit`, whose action is to reduce the balance a matching account by a debit amount.  The test is implemented as a rule-function
+
+````
+void rulefunction Test.RuleTests.testApplyDebit {
+    attribute {
+        validity = ACTION;
+    }
+    scope {
+    }
+    body {
+        Object logger = Log.getLogger("Test.RuleTests.testApplyDebit");
+        Log.log(logger, "info", "Start Test.RuleTests.testApplyDebit");
+
+        String acctId = "ApplyDebit";
+        cleanupAccount(acctId);
+		
+        // create account for the test
+        Concepts.Account.Account(
+            acctId /*extId String */,
+            20000 /*Balance double */,
+            0 /*Debits double */,
+            "Normal" /*Status String */,
+            2000 /*AvgMonthlyBalance double */);
+        Engine.executeRules();
+        
+        // load account into working memory
+        Account acct = Cluster.DataGrid.CacheLoadConceptByExtId(acctId, true);
+        Debit evt = Events.Debit.Debit(
+            null /*extId String */,
+            null /*payload String */,
+            acctId /*AccountId String */,
+            2000 /*Amount double */);
+        
+        // execute all rules for debit event, but only the ApplyDebit rule will be triggered
+        Event.assertEvent(evt);
+        Engine.executeRules();
+        
+        // reload updated account to verify the update
+        acct = Cluster.DataGrid.CacheLoadConceptByExtId(acctId, true);
+        assertNotNull(String.format("Account %s exists", acctId), acct);
+        assertWithinRange("Account balance is updated", 20000 - 2000, acct.Balance, 0.001);
+        assertWithinRange("Account debit is recorded", 2000, acct.Debits, 0.001);
+        assertThat("Account status is set", acct.Status, equalTo("Normal"));
+       
+        Log.log(logger, "info", "Completed Test.RuleTests.testApplyDebit");
+    }
+}
+````
+
+This test implements a common pattern to verify rules in preprocessor context.
+ - Test function uses no input parameter (i.e., scope), and returns nothing (i.e., void).
+ - `cleanAccount()` deletes any harmful objects from the cache, so the same test can run multiple times with the same result.
+ - It then creates a new account for the test.  The first call of `Engine.executeRules()` commits the new account to the cache.
+ - It then loads the new account into working memory using `CacheLoadConceptByExtId()`.
+ - It then creates and asserts a `Debit` event into working memory, and fires the `ApplyDebit` rule by the second call to `Engine.executeRules()`.
+ - It then reload the updated account from cache by calling `CacheLoadConceptByExtId()` again.
+ - 4 assert statement verify that the account is corrected updated by the `ApplyDebit` rule.
+ - A runtime exception would be thrown if any assert statement fails, which would be caught and counted by the test service.
+
+More advanced assertion are supported by the catalog functions in `beassert-1.0-jar`.  Refer to the unit tests in [DataTypeDemo](https://github.com/yxuco/DataTypeDemo) for more examples.
+
 ## Execute tests at BE engine startup
 
 ## Create and configure FraudDetectionTest
