@@ -35,7 +35,7 @@ In this section, we import the BE sample, `FraudDetectionCache`, and configure i
 
  - Launch BusinessEvents Studio, pull down menu **File -> Import…**
  - In **Import** dialog, select **Existing TIBCO BusinessEvents Studio Project**, click **Next >**
- - **Browse** `Exixting project root directory`, and select $BE_HOME/examples/standard/FraudDetectionCache/FraudDetectionCache
+ - **Browse** `Existing project root directory`, and select `$BE_HOME/examples/standard/FraudDetectionCache/FraudDetectionCache`
  - Check `Copy project into workspace` if it is not already checked, click **Finish**
  - In Studio Explorer, right click root of the imported project **FraudDetectionCache**, in popup menu, select **Build Enterprise Archive…**
  - Browse `File Location`, and specify `fdcache.ear` under the folder `betest-tutorial`.  Do not worry to override the `ear` file from GitHub.
@@ -56,9 +56,9 @@ These steps added the test-service component and the assert catalog functions to
  - Under **TestService** group, add variable **Host** = localhost
  - Under **Testservice** group, add variable **Port** = 8989
 
-This port number will be used by the test driver `FraudDetectionTest` to send test requests via HTTP.
+This port will be used by the test driver `FraudDetectionTest` to send test requests via HTTP.
 
-Open `fdcache.cdd`, modify the configuration as follows
+Open `fdcache.cdd`, modify the runtime configuration as follows
  - In **Agent Classes** panel, highlight **Inference-class (Inference)**, turn on **Concurrent RTC**
  - Open folder **Input Destination Collections**, and add the following 2 destinations
  - **TestFunction_01**, URI=`/testservice/test/function`, Preprocessor=`/testservice/RuleFunctions/processFunctionRequest`
@@ -76,3 +76,7 @@ This completes all necessary configurations.  You can rebuild the `ear` to make 
 ## Drive unit tests using FraudDetectionTest
 
 ## Configure and run pre-built tests
+
+## The author
+
+Yueming is a Sr. Architect working at [TIBCO](http://www.tibco.com/) Architecture Service Group.
