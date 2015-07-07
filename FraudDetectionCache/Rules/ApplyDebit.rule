@@ -1,0 +1,34 @@
+/**
+ * @description Debits the matching account by the specified amount
+ * @author 
+ */
+rule Rules.ApplyDebit {
+	attribute {
+		priority = 1;
+		forwardChain = true;
+	}
+	declare {
+		Events.Debit	debit;
+		Concepts.Account	account;
+	}
+	when {
+		//Checks whether the extId of an Account instance in working memory  
+		//matches the incoming event's account ID
+		account@extId == debit.AccountId;
+	}
+	then {
+		//If Account Status is not Suspended, debits the account
+		if (account.Status !="Suspended") {
+	       	account.Debits=debit.Amount;
+	       	System.debugOut("#### Debiting account " + account@extId + " by $" + debit.Amount);
+	       	account.Balance=account.Balance - debit.Amount;
+	       	System.debugOut("#### New balance: $" + account.Balance);
+	    }
+		else {
+	       	System.debugOut("#### Cannot debit the suspended account " + account@extId);
+		}
+		
+		Event.consumeEvent(debit);
+	}
+
+}

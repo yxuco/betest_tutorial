@@ -1,0 +1,30 @@
+/**
+ * @description 
+ * @author 
+ */
+rule Rules.CheckNegativeBalance {
+	
+	attribute {
+		priority = 5;
+		forwardChain = true;
+	}
+	
+	declare {
+		Concepts.Account account;		
+	}
+	
+	when {
+		// Checks that the balance is less than zero
+		account.Balance < 0;
+		// Checks that Account status is not set to Suspended
+		account.Status != "Suspended";
+	}
+	
+	then {
+		account.Status = "Suspended";
+		System.debugOut("#### Account ID " + account@extId
+		    + " STATUS set to Suspended. Balance "
+		    + account.Balance + " is less than zero");
+	}
+	
+}

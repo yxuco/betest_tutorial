@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><event:SimpleEvent xmlns:event="http:///com/tibco/cep/designtime/core/model/event" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:designtime="http:///com/tibco/cep/designtime/core/model/designtime_ontology.ecore" xmi:version="2.0" namespace="/Events/" folder="/Events/" name="Debit" description="Specifies an account (by inheritance) and a debit amount" GUID="5C0DE2DE-A54C-244A-52D0-75A7F02B6D97" ownerProjectName="FraudDetectionCache" superEventPath="/Events/AccountOperations" ttlUnits="Seconds">
+  <extendedProperties/>
+  <properties name="Amount" ownerProjectName="FraudDetectionCache" type="double" ownerPath="/Events/Debit"/>
+  <expiryAction name="Debit_expiryAction" ownerProjectName="FraudDetectionCache" actionText="" conditionText="">
+    <symbols>
+      <symbolList idName="debit" type="/Events/Debit"/>
+    </symbols>
+  </expiryAction>
+</event:SimpleEvent>

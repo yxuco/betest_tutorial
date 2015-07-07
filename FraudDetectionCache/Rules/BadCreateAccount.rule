@@ -1,0 +1,28 @@
+/**
+ * @description Applies upon request to create an account that already exists.
+ * @author jpascoe-lt2
+ */
+rule Rules.BadCreateAccount {
+	
+	attribute {
+		priority = 1;
+		forwardChain = true;
+	}
+	
+	declare {
+		Concepts.Account existingAccount;
+		Events.CreateAccount request;
+	}
+	
+	when {
+		//Checks whether the extId of an Account instance in the Rete network
+		//matches the incoming event's account ID.
+		existingAccount@extId == request.AccountId;		
+	}
+	
+	then {
+		System.debugOut("#### Account already exists: " + request.AccountId);	
+		Event.consumeEvent(request);
+	}
+	
+}

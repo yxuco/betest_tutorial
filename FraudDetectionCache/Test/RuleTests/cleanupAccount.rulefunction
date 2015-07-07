@@ -1,0 +1,23 @@
+/**
+ * @description cleanup an account from cache.  run it in preprocessor context.
+ */
+void rulefunction Test.RuleTests.cleanupAccount {
+	attribute {
+		validity = ACTION;
+	}
+	scope {
+		String acctId;
+	}
+	body {
+		Object logger = Log.getLogger("");
+		Log.log(logger, "info", "Start Test.RuleTests.cleanupAccount");
+		Account acct = Cluster.DataGrid.CacheLoadConceptByExtId(acctId, true);
+		if (acct != null) {
+			Instance.deleteInstance(acct);
+			Engine.executeRules();
+            Log.log(logger, "info", "Deleted account " + acctId);
+		}
+
+        Log.log(logger, "info", "Completed Test.RuleTests.cleanupAccount");
+	}
+}

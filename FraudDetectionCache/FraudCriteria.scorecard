@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><element:Scorecard xmlns:element="http:///com/tibco/cep/designtime/core/model/element" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:designtime="http:///com/tibco/cep/designtime/core/model/designtime_ontology.ecore" xmi:version="2.0" namespace="/" folder="/" name="FraudCriteria" description="Stores the criteria used to determine fraud" GUID="BD35DA91-DFA2-6A2D-9D6E-AACC80B1A5A6" ownerProjectName="FraudDetectionCache" scorecard="true">
+  <extendedProperties/>
+  <properties name="interval" ownerProjectName="FraudDetectionCache" type="long" ownerPath="/FraudCriteria"/>
+  <properties name="numTransactions" ownerProjectName="FraudDetectionCache" type="int" ownerPath="/FraudCriteria"/>
+  <properties name="debitsPercent" ownerProjectName="FraudDetectionCache" type="double" ownerPath="/FraudCriteria"/>
+</element:Scorecard>

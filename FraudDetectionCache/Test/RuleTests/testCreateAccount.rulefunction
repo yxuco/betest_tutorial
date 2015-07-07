@@ -1,0 +1,38 @@
+/**
+ * @description 
+ */
+void rulefunction Test.RuleTests.testCreateAccount {
+	attribute {
+		validity = ACTION;
+	}
+	scope {
+		
+	}
+	body {
+		Object logger = Log.getLogger("Test.RuleTests.testCreateAccount");
+		Log.log(logger, "info", "Start Test.RuleTests.testCreateAccount");
+		
+		String acctId = "CreateAccount";
+		cleanupAccount(acctId);
+		
+		Events.CreateAccount evt = Events.CreateAccount.CreateAccount(
+            null /*extId String */,
+            null /*payload String */,
+            acctId /*AccountId String */,
+            2000 /*AvgMonthlyBalance double */,
+            20000 /*Balance double */);
+
+        // execute all rules for create event, but only the CreateAccount rule will be triggered
+        Event.assertEvent(evt);
+        Engine.executeRules();
+        
+        // reload to confirm the existence of account concept
+        Account acct = Cluster.DataGrid.CacheLoadConceptByExtId(acctId, true);
+        assertNotNull(String.format("Account %s is created", acctId), acct);
+        assertWithinRange("Account balance is set", 20000, acct.Balance, 0.001);
+        assertWithinRange("Account monthly balance is set", 2000, acct.AvgMonthlyBalance, 0.001);
+        assertThat("Account status is set", acct.Status, equalTo("Normal"));
+
+        Log.log(logger, "info", "Completed Test.RuleTests.testCreateAccount");
+	}
+}

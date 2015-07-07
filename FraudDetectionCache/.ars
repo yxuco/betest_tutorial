@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rms:ArtifactsSummary xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:rms="http:///com/tibco/cep/rms/artifacts/artifacts_summary.ecore" name="FraudDetectionCache">
+  <addedArtifacts>
+    <artifact artifactPath="/Channels/HTTP" artifactType="channel" containerPath="/Channels"/>
+  </addedArtifacts>
+  <addedArtifacts>
+    <artifact artifactPath="/Concepts/Account" artifactType="concept" containerPath="/Concepts"/>
+  </addedArtifacts>
+  <addedArtifacts>
+    <artifact artifactPath="/Events/AccountOperations" artifactType="event" containerPath="/Events"/>
+  </addedArtifacts>
+  <addedArtifacts>
+    <artifact artifactPath="/Events/CreateAccount" artifactType="event" containerPath="/Events"/>
+  </addedArtifacts>
+  <addedArtifacts>
+    <artifact artifactPath="/Events/Debit" artifactType="event" containerPath="/Events"/>
+  </addedArtifacts>
+  <addedArtifacts>
+    <artifact artifactPath="/Events/Unsuspend" artifactType="event" containerPath="/Events"/>
+  </addedArtifacts>
+  <addedArtifacts>
+    <artifact artifactPath="/FraudCriteria" artifactType="scorecard" containerPath="/"/>
+  </addedArtifacts>
+  <addedArtifacts>
+    <artifact artifactPath="/RuleFunctions/InitializeScorecard" artifactType="rulefunction" containerPath="/RuleFunctions"/>
+  </addedArtifacts>
+  <addedArtifacts>
+    <artifact artifactPath="/RuleFunctions/PreProcessor" artifactType="rulefunction" containerPath="/RuleFunctions"/>
+  </addedArtifacts>
+  <addedArtifacts>
+    <artifact artifactPath="/Rules/ApplyDebit" artifactType="rule" containerPath="/Rules"/>
+  </addedArtifacts>
+  <addedArtifacts>
+    <artifact artifactPath="/Rules/BadApplyDebit" artifactType="rule" containerPath="/Rules"/>
+  </addedArtifacts>
+  <addedArtifacts>
+    <artifact artifactPath="/Rules/BadCreateAccount" artifactType="rule" containerPath="/Rules"/>
+  </addedArtifacts>
+  <addedArtifacts>
+    <artifact artifactPath="/Rules/CheckNegativeBalance" artifactType="rule" containerPath="/Rules"/>
+  </addedArtifacts>
+  <addedArtifacts>
+    <artifact artifactPath="/Rules/CreateAccount" artifactType="rule" containerPath="/Rules"/>
+  </addedArtifacts>
+  <addedArtifacts>
+    <artifact artifactPath="/Rules/FraudDetection" artifactType="rule" containerPath="/Rules"/>
+  </addedArtifacts>
+  <addedArtifacts>
+    <artifact artifactPath="/Rules/UnsuspendAccount" artifactType="rule" containerPath="/Rules"/>
+  </addedArtifacts>
+  <addedArtifacts>
+    <artifact artifactPath="/SharedResources/HTTPConnection" artifactType="sharedhttp" containerPath="/SharedResources"/>
+  </addedArtifacts>
+</rms:ArtifactsSummary>

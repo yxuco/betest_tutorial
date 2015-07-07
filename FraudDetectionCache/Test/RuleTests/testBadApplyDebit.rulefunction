@@ -1,0 +1,34 @@
+/**
+ * @description 
+ */
+void rulefunction Test.RuleTests.testBadApplyDebit {
+	attribute {
+		validity = ACTION;
+	}
+	scope {
+		
+	}
+	body {
+		Object logger = Log.getLogger("Test.RuleTests.testBadApplyDebit");
+		Log.log(logger, "info", "Start Test.RuleTests.testBadApplyDebit");
+		
+		String acctId = "BadApplyDebit";
+		cleanupAccount(acctId);
+		
+		Debit evt = Events.Debit.Debit(
+            null /*extId String */,
+            null /*payload String */,
+            "BadApplyDebit" /*AccountId String */,
+            20000 /*Amount double */);
+        
+        // execute all rules for debit event, but only the BadApplyDebit rule will be triggered
+        Event.assertEvent(evt);
+        Engine.executeRules();
+        
+        // reload to confirm the existence of account concept
+        Account acct = Cluster.DataGrid.CacheLoadConceptByExtId(acctId, true);
+        assertNull("Debit on non-existing account should not create the account", acct);
+
+        Log.log(logger, "info", "Completed Test.RuleTests.testBadApplyDebit");
+	}
+}

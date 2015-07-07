@@ -1,0 +1,41 @@
+/**
+ * @description 
+ * @author 
+ */
+rule Rules.FraudDetection {
+	
+	attribute {
+		priority = 5;
+		forwardChain = true;
+	}
+	
+	declare {
+		Concepts.Account	account;	
+	}
+	
+	when {
+		//1. Checks the number of debits in the verification interval
+		Temporal.History.howMany(
+		        account.Debits, 
+		        DateTime.getTimeInMillis(DateTime.now()) - FraudCriteria.interval,
+		        DateTime.getTimeInMillis(DateTime.now()),
+		        true)
+		    >= FraudCriteria.numTransactions;
+		    
+		//2. Checks the percentage of the average balance that was debited in the verification interval
+		Temporal.Numeric.addAllHistoryDouble(
+		        account.Debits,
+		        DateTime.getTimeInMillis(DateTime.now()) - FraudCriteria.interval)
+		    > (FraudCriteria.debitsPercent * account.AvgMonthlyBalance); 
+		
+		//3. Checks that the Account status is not set to Suspended
+		account.Status != "Suspended";
+	}
+	
+	then {
+		account.Status = "Suspended";
+		System.debugOut("#### Account ID " + account@extId
+		        + " STATUS set to Suspended. Fraud suspected.");
+	}
+	
+}

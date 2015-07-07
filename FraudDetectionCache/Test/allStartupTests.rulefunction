@@ -1,0 +1,26 @@
+/**
+ * @description 
+ */
+void rulefunction Test.allStartupTests {
+	attribute {
+		validity = ACTION;
+	}
+	scope {
+		
+	}
+	body {
+        Object logger = Log.getLogger("Test.allStartupTests");
+        Log.log(logger, "info", "Start Test.allStartupTests");
+        
+        // list all function tests that can run at engine startup
+        String[] tests = String[]{
+            "/Test/FunctionTests/testInitializeScorecard"};
+            
+        // invoke tests sequentially
+        for (int i = 0; i < tests@length; i++) {
+            Engine.invokeRuleFunction(tests[i], null);
+        }
+        
+        Log.log(logger, "info", "Completed Test.allStartupTests");	
+	}
+}

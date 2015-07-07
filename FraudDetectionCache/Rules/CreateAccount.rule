@@ -1,0 +1,32 @@
+/**
+ * @description 
+ * @author 
+ */
+rule Rules.CreateAccount {
+	
+	attribute {
+		priority = 5;
+		forwardChain = true;
+	}
+	
+	declare {
+		Events.CreateAccount request;
+	}
+	
+	when {
+	}
+	
+	then {
+		Concepts.Account.Account(
+		    request.AccountId         /*extId String */,
+		    request.Balance           /*Balance double */,
+		    0                         /*Debits double */,
+		    "Normal"                  /*Status String */,
+		    request.AvgMonthlyBalance /*AvgMonthlyBalance double */);
+		
+		System.debugOut("#### Created account " + request.AccountId);
+
+		Event.consumeEvent(request);		
+	}
+	
+}

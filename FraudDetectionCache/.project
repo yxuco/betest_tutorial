@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>FraudDetectionCache</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>com.tibco.cep.studio.core.studioProjectBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>com.tibco.cep.studio.core.studioNature</nature>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>testservice.projlib</name>
+			<type>2</type>
+			<locationURI>projlib:/file:/Users/yxu/Developer/tibco/test_tutorial/lib/testservice.projlib</locationURI>
+		</link>
+	</linkedResources>
+</projectDescription>

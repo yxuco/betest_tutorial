@@ -1,0 +1,39 @@
+/**
+ * @description 
+ */
+void rulefunction Test.allScheduledTests {
+	attribute {
+		validity = ACTION;
+	}
+	scope {
+		
+	}
+	body {
+        Object logger = Log.getLogger("Test.allScheduledTests");
+        Log.log(logger, "info", "Start Test.allScheduledTests");
+        
+        // list all rule tests for preprocessor context
+        String[] tests = String[]{
+        	"/Test/RuleTests/testApplyDebit",
+            "/Test/RuleTests/testBadApplyDebit",
+            "/Test/RuleTests/testBadCreateAccount",
+            "/Test/RuleTests/testCheckNegativeBalance",
+            "/Test/RuleTests/testCreateAccount",
+            "/Test/RuleTests/testUnsuspendAccount"};
+
+        // concat all preproc tests in a single timer
+        Object buff = String.createBuffer(100);
+        for (int i = 0; i < tests@length; i++) {
+        	String.append(buff, tests[i]);
+        	String.append(buff, ";");
+        }
+
+        // scheule tests for preproc context at 3s after engine startup
+        testservice.TestScheduler.scheduleTest(
+            String.convertBufferToString(buff) /*functionName String */,
+            true /*isPreproc boolean */,
+            3000 /*delay long */);
+
+        Log.log(logger, "info", "Completed Test.allScheduledTests");
+	}
+}

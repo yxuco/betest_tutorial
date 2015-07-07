@@ -1,0 +1,26 @@
+/**
+ * @description 
+ * @author nprade-nb
+ */
+rule Rules.UnsuspendAccount {
+	
+	attribute {
+		priority = 1;
+		forwardChain = true;
+	}
+	
+	declare {
+        Events.Unsuspend request;
+		Concepts.Account account;
+	}
+	
+	when {
+		account@extId == request.AccountId;
+		account.Status == "Suspended";
+	}
+	
+	then {
+		account.Status = "Normal";
+	}
+	
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><event:SimpleEvent xmlns:event="http:///com/tibco/cep/designtime/core/model/event" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:designtime="http:///com/tibco/cep/designtime/core/model/designtime_ontology.ecore" xmi:version="2.0" namespace="/Events/" folder="/Events/" name="CreateAccount" description="Triggers the CreateAccount rule to create an account" GUID="768A488A-28B0-C5AE-A75A-082192B4982C" ownerProjectName="FraudDetectionCache" superEventPath="/Events/AccountOperations" ttlUnits="Seconds">
+  <extendedProperties/>
+  <properties name="AvgMonthlyBalance" ownerProjectName="FraudDetectionCache" type="double" ownerPath="/Events/CreateAccount"/>
+  <properties name="Balance" ownerProjectName="FraudDetectionCache" type="double" ownerPath="/Events/CreateAccount"/>
+  <expiryAction name="CreateAccount_expiryAction" ownerProjectName="FraudDetectionCache" actionText="" conditionText="">
+    <symbols>
+      <symbolList idName="createaccount" type="/Events/CreateAccount"/>
+    </symbols>
+  </expiryAction>
+</event:SimpleEvent>

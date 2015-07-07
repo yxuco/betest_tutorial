@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration:StudioProjectConfiguration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:configuration="http:///com/tibco/cep/studio/common/configuration/model/project_configuration.ecore" name="FraudDetectionCache" version="5.2.0" build="467" xpathVersion="2.0">
+  <thirdpartyLibEntries entryType="Third Party" path="/Users/yxu/.m2/repository/com/tibco/psg/beassert/1.0/beassert-1.0.jar" timestamp="1436155020000">
+    <nativeLibraryLocation/>
+  </thirdpartyLibEntries>
+  <projectLibEntries path="/Users/yxu/Developer/tibco/test_tutorial/lib/testservice.projlib" timestamp="1436202874000"/>
+  <javaSourceFolderEntries entryType="JAVA_SOURCE_FOLDER" path="/FraudDetectionCache/JavaSrc" readOnly="true"/>
+  <enterpriseArchiveConfiguration name="FraudDetectionCache" author="TIBCO Software Inc." version="14" path="/Users/yxu/Developer/tibco/test_tutorial/fdcache.ear" overwrite="true"/>
+</configuration:StudioProjectConfiguration>

@@ -1,0 +1,24 @@
+/**
+ * @description
+ * @author 
+ */
+rule Rules.BadApplyDebit {
+	
+	attribute {
+		priority = 5;
+		forwardChain = true;
+	}
+	
+	declare {
+		Events.Debit	debit;
+	}
+	
+	when {	
+	}
+	
+	then {
+		System.debugOut("#### Debit not applied, account not found: " + debit.AccountId);	
+		Event.consumeEvent(debit);	
+	}
+	
+}

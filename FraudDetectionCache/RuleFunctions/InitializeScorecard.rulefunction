@@ -1,0 +1,24 @@
+/**
+ * @description Sets values in the FraudCriteria scorecard
+ */
+void rulefunction RuleFunctions.InitializeScorecard {
+
+	attribute {
+		validity = ACTION;
+	}
+
+	scope {		
+	}
+	
+	body {
+		// Initializes the scorecard variables.
+		FraudCriteria.debitsPercent = .8; // 80%
+		FraudCriteria.interval = 120*1000; // 120 seconds
+		FraudCriteria.numTransactions = 3;        // 3 transactions max
+      	System.debugOut("#### Criteria:");
+      	System.debugOut("     debitsPercent   = " + FraudCriteria.debitsPercent);		
+      	System.debugOut("     interval        = " + FraudCriteria.interval);		
+      	System.debugOut("     numTransactions = " + FraudCriteria.numTransactions);		
+	}
+	
+}
