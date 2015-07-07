@@ -11,14 +11,22 @@ The following 3 projects contain source code and instructions for the test utili
 
 ## Introduction
 
-As business agility has put more and more pressure on IT organization to deliver application updates continuously, automated unit testing has become a crucial requirement for all applications.  Rule-based systems like TIBCO BusinessEvents are no exception.  Even though it is challenging to test individual rules and functions in isolation, developers must be able to write unit tests to assess the correctness of individual rules and functions due to the following:
- - Unit test provides more confidence to developers when they update or add functionality to the application, and thus a full set of unit tests encourages code refactoring.
+As business agility has put more and more pressure on IT organization to deliver application updates continuously, automated unit testing has become a crucial requirement for all applications.  Rule-based systems like TIBCO BusinessEvents are no exception.  Even though it is challenging to test individual rules and functions in isolation, developers must be able to write unit tests to assess the correctness of individual rules and functions due to the following reasons:
+ - Unit test provides more confidence to developers when they update or add functionality to applications, and thus a full set of unit tests encourages code refactoring.
  - Unit test improves the code coverage, especially for rule-based systems, it is harder to improve code coverage by adding functional tests.
- - Unit test helps documenting the code, and improves the implementation by ensuring the testability of the code.
+ - Unit test helps documenting the code, and improves application implementation by ensuring the testability of the code.
 
 This tutorial shows that unit test of individual rules and runctions is not only necessary, but also achievable for TIBCO BusinessEvents applications. 
 
 ## Clone the tutorial utility
+
+This tutorial requires installation of Git and Maven.  The project [BE Unit](https://github.com/yxuco/beunit) describes steps for setting up the development environment.
+
+Clone the tutorial code and utilities from GitHub using the following command:
+
+    git clone https://github.com/yxuco/betest_tutorial.git
+
+This will download the tutorial to a folder `betest_tutorial`.  The 2 projects, `FraudDetectionCache` and `FraudDetectionTest`, are the result of the tutorial, and will be rebuilt from scratch in the following sections.  The `lib` folder contains jars and BE project library used by this tutorial.  You may build the jar and project library from source code in [BE Assert](https://github.com/yxuco/beassert) and [DataTypeDemo](https://github.com/yxuco/DataTypeDemo).
 
 ## Create and configure FraudDetectionCache
 
