@@ -67,20 +67,20 @@ Open `fdcache.cdd`, modify the runtime configuration as follows
 
 This completes all necessary configurations.  You can rebuild the `ear` to make sure that the configuration did not introduce any error.
 
-## Write unit test cases
+## Write unit tests
 
-Our goal is to write unit tests for all rules and rule functions in a BE application.  However, compared to functional or object oriented programming, rule-based programming is the hardest to unit test.
+Our goal is to write unit tests for all rules and rule functions in a BE application.  However, compared to functional or object oriented programming, rule-based program is the hardest to unit test.
  - For functions, the best testable functions are pure functions that do not have any side effects, but rule-based systems are mostly based on side effects, and so most rule functions are **not** pure functions, and thus harder to write unit tests.
  - For rules, they are not only based on side effects by updating objects in the working memory, but also they can execute in a nondeterministic sequence.
 
 Besides, BusinessEvents applications have a few more properties that must be considered carefully in unit tests.
- - Concepts and Events are 2 different types of data structures.  Concepts are typically mutable data, and persisted and shared globally across multiple threads and JVMs.  Events are usually immutable data, transient and not shared by multiple threads, although they can be sent between different threads.
- - Rule-functions can run in 2 different contexts, i.e., preprocessor or rule context.  A rule-function for preprocessor context behaves similar to a pure function because it cannot update Concepts/Scorecards to create side-effects, although it can update other shared data structure, i.e., in-memory  mutable collections (List, Set, or Map).
+ - Concepts and Events are 2 different types of data structures.  Concepts are typically mutable data that are persisted and shared globally across multiple threads and JVMs.  Events are usually immutable data that are transient and not shared by multiple threads, although they can be sent between different threads.
+ - Rule-functions can run in 2 different contexts, i.e., preprocessor or rule context.  A rule-function for preprocessor context behaves much like a pure function because it cannot update Concepts/Scorecards to create side-effects, although it can update other shared data structures, i.e., in-memory  mutable collections (List, Set, or Map).
  - Rules can also be executed in the 2 different contexts.  However, when Cache-Only and Concurrent-RTC are used, we can use preprocessor context to isolate the test of rules.
 
 In this tutorial, all tests are executed in preprocessor context.  Examples for rule context and more BE data types can be found in [DataTypeDemo](https://github.com/yxuco/DataTypeDemo).
 
-As a covention, we add all unit test functions under a separate folder `/Test`.  We explain only one of the tests for a rule `ApplyDebit`, whose action is to reduce the balance a matching account by a debit amount.  The test is implemented as a rule-function
+As a covention, we add all unit test functions under a separate folder `/Test`.  We explain only one of the tests for a rule `ApplyDebit`, whose action is to reduce the balance of a matching account by a debit amount.  The test is implemented as a rule-function:
 
 ````
 void rulefunction Test.RuleTests.testApplyDebit {
@@ -130,20 +130,43 @@ void rulefunction Test.RuleTests.testApplyDebit {
 ````
 
 This test implements a common pattern to verify rules in preprocessor context.
- - Test function uses no input parameter (i.e., scope), and returns nothing (i.e., void).
+ - Test function uses no input parameter (i.e., `scope`), and returns nothing (i.e., `void`).
  - `cleanAccount()` deletes any harmful objects from the cache, so the same test can run multiple times with the same result.
  - It then creates a new account for the test.  The first call of `Engine.executeRules()` commits the new account to the cache.
  - It then loads the new account into working memory using `CacheLoadConceptByExtId()`.
  - It then creates and asserts a `Debit` event into working memory, and fires the `ApplyDebit` rule by the second call to `Engine.executeRules()`.
  - It then reload the updated account from cache by calling `CacheLoadConceptByExtId()` again.
- - 4 assert statement verify that the account is corrected updated by the `ApplyDebit` rule.
- - A runtime exception would be thrown if any assert statement fails, which would be caught and counted by the test service.
+ - 4 assert statements verify that the account is corrected updated by the `ApplyDebit` rule.
+ - A runtime exception would be thrown if any assert statement fails; the exception would be caught and counted by the test service.
 
 More advanced assertion are supported by the catalog functions in `beassert-1.0-jar`.  Refer to the unit tests in [DataTypeDemo](https://github.com/yxuco/DataTypeDemo) for more examples.
 
 ## Execute tests at BE engine startup
 
+During development, the easiest way to launch unit tests is at BE engine startup.  However, tests for rules can only be launched after the engine is fully started. So, the test service implemented a scheduler to launch rule tests 3 seconds after the engine statup.
+
+2 helper functions are used to launch unit tests at engine startup:
+ - `allStartupTests`, which lists all tests to be executed during engine startup.  You can add test names to this function for tests that can be launched during startup, which includes all tests of functions in preprocessor context.
+ - `allScheduledTests`, which lists all tests to be scheduled after the engine startup.  You can add test names to this functions for tests that cannot be launched during startup, which indluces tests for rules and functions in rule context.
+
+Open `fdcache.cdd`, and add these to functions to **Startup Functions** of the **Inference-class** in the **Agent Classes** tab.
+
+Rebuild `fdcache.ear`.
+
+Highlight project root **FraudDetectionCache**, pull down menu **Run -> Run Configurations…**.  Set a configuration for `BusinessEvents Application` with the following parameter:
+ - **CDD File:** full path to `fdcache.cdd` in the project workspace
+ - **Processing Unit:** `default`
+ - **Working Directory:** the `betest_tutorial` directory where you put the `fdcache.ear`
+ - **EAR File:** full path to the `fdcache.ear`
+ - **ClassPath:** Open the ClassPath tab, add `junit-4.12.jar` and `hamcrest-core-1.3.jar` to the **Third Party** library.  You can find these 2 jars from your local Maven repository, or from the downloaded `betest_tutorial/lib` folder.
+
+This launches the BE engine in the BusinessEvents Studio.  Test completed messages should be printed in the Console log.
+
 ## Create and configure FraudDetectionTest
+
+Although it is quick to launch unit tests at engine startup during development, it is not convenient to scan log files for failed tests, nor is it good to integrate with CI tools such as [Jenkins](https://jenkins-ci.org/).
+
+This section will build a test driver based on JUnit, and so you will be able to visualize the test results in Eclipse, or Jenkins, or any other tools that are integrated with JUnit.
 
 ## Drive unit tests using FraudDetectionTest
 
