@@ -16,7 +16,7 @@ As business agility has put more and more pressure on IT organization to deliver
  - Unit test improves the code coverage, especially for rule-based systems, it is harder to improve code coverage by adding functional tests.
  - Unit test helps documenting the code, and improves application implementation by ensuring the testability of the code.
 
-This tutorial shows that unit test of individual rules and runctions is not only necessary, but also achievable for TIBCO BusinessEvents applications. 
+This tutorial shows that unit test of individual rules and rule-functions is not only necessary, but also achievable for TIBCO BusinessEvents applications. 
 
 ## Clone the tutorial utility
 
