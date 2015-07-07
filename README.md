@@ -179,8 +179,8 @@ In BusinessEvents Studio, import and configure the project as follows:
  - **Browse** Root Directory and select the cloned project `FraudDetectionTest`
  - Open the **Advanced** section, and specify **Name template:** as `FraudDetectionTest`, click **Finish**
  - Select the **FraudDetectionTest** project, close all files, and pull down menu **Window -> Open Perspective** to open **Java** Perspective.
- - In the `src/test/java` package folder, delete the JUnit test package and classes from the beunit project
- - Add new unit test package and class, e.g., `frauddetection.RuleTest`, as follows:
+ - In the `src/test/java` package folder, delete the JUnit test package and classes from the original beunit project
+ - Add new JUnit test package and class, e.g., `frauddetection.RuleTest`, as follows:
 
 ````
 package frauddetection;
@@ -228,34 +228,34 @@ This JUnit class simply enumerates the full path of all unit tests in the `Fraud
 ## Drive unit tests using FraudDetectionTest
 
 The test driver sends test requests to the `FraudDetectionCache` engine via HTTP port 8989.  To execute the tests,
- - First, launch the BE engine `FraudDetectionCache` in BusinessEvents Studio as described in the previous section;
- - Then, from command-line shell, change to the project root folder of `FraudDetectionTest`, and execute the command
+ - First, launch `FraudDetectionCache` in BusinessEvents Studio as described in the previous section;
+ - Then, from command shell, change to the project root folder of `FraudDetectionTest`, and execute the command
 
     mvn test
 
 This should print out `BUILD SUCESS` if all unit tests complete without failures.
 
-We can also reverse the process, and run the BE engine `FraudDetectionCache` from a command-line shell, and run the test driver `FraudDetectionTest` from the BusinessEvents Studio to visualize the test results.
+We can also reverse the process, and run `FraudDetectionCache` from a command shell, and run the test driver `FraudDetectionTest` from the BusinessEvents Studio, so we can visualize the test results.
 
-The downloaded folder `betest_tutorial` contains a `be-engine.tra` which is based on the BE default `tra` file but added 3 jar files to the classpath, i.e., `beassert-1.0.jar`, `junit-4.12.jar`, and `hamcrest-core-1.3.jar`, which are required to run the BE process `FraudDetectionCache`.  So, edit this file to set CUST_LIB variable to match your directory structure.
+The downloaded folder `betest_tutorial` contains a file `be-engine.tra` which is based on the BE default `tra` file but added 3 jar files to the classpath, i.e., `beassert-1.0.jar`, `junit-4.12.jar`, and `hamcrest-core-1.3.jar`, which are required to run `FraudDetectionCache`.  So, edit this file to set CUST_LIB to match your directory structure.
 
 The downloaded folder `betest_tutorial` also contains a script `run_fdcache` for launching the BE engine from command shell.  Edit the the variables in this script to match your directory structure, and then use it to start the BE engine from command prompt.
 
-You can then start the unit tests from BusinessEvents Studio as follows:
+You can then start JUnit tests from BusinessEvents Studio as follows:
  - Open **Java** Perspective
- - In **Package Explorer**, right click the package `src/test/java` in the project **FraudDetectionTest**, and from the popup menu, select **Run As -> JUnit Test**
+ - In **Package Explorer**, right click the package `src/test/java` in **FraudDetectionTest**, and from the popup menu, select **Run As -> JUnit Test**
 
 You should see the familiar JUnit green bar in the BusinessEvents Studio and a list of completed tests.
 
 ## Configure and run pre-built tests
 
-If you did not go through the steps of the above sections, you can import the 2 projects into BusinessEvents Studio, and see how the unit tests work.  Scan the the previous sections to find the details of these steps.
+If you did not go through the steps of the above sections, you can import the 2 downloaded projects into BusinessEvents Studio, and see how the unit tests work.  Refer to the the previous sections for more details about these steps.
  - Import `FraudDetectionCache` as an **Existing TIBCO BusinessEvents Studio Project**
- - Import `FraudDetectionTest` as an **Existing Maven Projects**
- - In `FraudDetectionCache` project, set **Build Path** to include the `testservice.projlib` and `beassert-1.0.jar` from the downloaded `betest_tutorial/lib` folder.
+ - Import `FraudDetectionTest` as an **Existing Maven Project**
+ - In `FraudDetectionCache` project, set **Build Path** to include `testservice.projlib` and `beassert-1.0.jar` from the downloaded `betest_tutorial/lib` folder.
  - When launching `FraudDetectionCache` from BusinessEvents Studio, make sure that `junit-4.12.jar` and `hamcrest-core-1.3.jar` are added to the Classpath.
  - When lauching `FraudDetectionCache` from command shell, edit the variable `CUST_LIB` in `be-engine.tra` and the environment variables in the script `run_fdcache` to match your directory structure.
- - You may either run BE engine from command shell and JUnit in BusinessEvents Studio, or run BE engien in BusinessEvents Studio, and JUnit from command shell.  Refer the previous sections for more details.
+ - You may either run BE engine from command shell and JUnit in BusinessEvents Studio, or run BE engien in BusinessEvents Studio, and JUnit from command shell.  Refer to the previous sections for more details.
 
 ## The author
 
