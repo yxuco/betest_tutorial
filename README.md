@@ -38,7 +38,7 @@ In this section, we import the BE sample, `FraudDetectionCache`, and configure i
  - **Browse** `Existing project root directory`, and select `$BE_HOME/examples/standard/FraudDetectionCache/FraudDetectionCache`
  - Check `Copy project into workspace` if it is not already checked, click **Finish**
  - In Studio Explorer, right click root of the imported project **FraudDetectionCache**, in popup menu, select **Build Enterprise Archive…**
- - Browse `File Location`, and specify `fdcache.ear` under the folder `betest-tutorial`.  Do not worry to override the `ear` file from GitHub.
+ - Browse `File Location`, and specify `fdcache.ear` under the folder `betest-tutorial`.  Do not worry about overriding the `ear` file from GitHub.
 
 The project should build successfully, and generate an `ear` file.
 
@@ -71,7 +71,7 @@ This completes all necessary configurations.  You can rebuild the `ear` to make 
 
 Our goal is to write unit tests for all rules and rule functions in a BE application.  However, compared to functional or object oriented programming, rule-based program is the hardest to unit test.
  - For functions, the best testable functions are pure functions that do not have any side effects, but rule-based systems are mostly based on side effects, and so most rule functions are **not** pure functions, and thus harder to write unit tests.
- - For rules, they are not only based on side effects by updating objects in the working memory, but also they can execute in a nondeterministic sequence.
+ - For rules, they are not only based on side effects by updating objects in the working memory, but also they can execute in nondeterministic sequences.
 
 Besides, BusinessEvents applications have a few more properties that must be considered carefully in unit tests.
  - Concepts and Events are 2 different types of data structures.  Concepts are typically mutable data that are persisted and shared globally across multiple threads and JVMs.  Events are usually immutable data that are transient and not shared by multiple threads, although they can be sent between different threads.
@@ -129,13 +129,13 @@ void rulefunction Test.RuleTests.testApplyDebit {
 }
 ````
 
-This test implements a common pattern to verify rules in preprocessor context.
+This test implements a common pattern for verifying rules in preprocessor context.
  - Test function uses no input parameter (i.e., `scope`), and returns nothing (i.e., `void`).
  - `cleanAccount()` deletes any harmful objects from the cache, so the same test can run multiple times with the same result.
  - It then creates a new account for the test.  The first call of `Engine.executeRules()` commits the new account to the cache.
  - It then loads the new account into working memory using `CacheLoadConceptByExtId()`.
- - It then creates and asserts a `Debit` event into working memory, and fires the `ApplyDebit` rule by the second call to `Engine.executeRules()`.
- - It then reload the updated account from cache by calling `CacheLoadConceptByExtId()` again.
+ - It then creates and asserts a `Debit` event into working memory, and fires the `ApplyDebit` rule using a second call to `Engine.executeRules()`.
+ - It then reloads the updated account from cache by calling `CacheLoadConceptByExtId()` again.
  - 4 assert statements verify that the account is corrected updated by the `ApplyDebit` rule.
  - A runtime exception would be thrown if any assert statement fails; the exception would be caught and counted by the test service.
 
