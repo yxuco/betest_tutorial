@@ -14,9 +14,9 @@ The following 3 projects contain source code and instructions for the test utili
 As business agility has put more and more pressure on IT organization to deliver application updates continuously, automated unit testing has become a crucial requirement for all applications.  Rule-based systems like TIBCO BusinessEvents are no exception.  Even though it is challenging to test individual rules and functions in isolation, developers must be able to write unit tests to assess the correctness of individual rules and functions due to the following reasons:
  - Unit test provides more confidence to developers when they update or add functionality to applications, and thus a full set of unit tests encourages code refactoring.
  - Unit test improves the code coverage, especially for rule-based systems, it is harder to improve code coverage by adding functional tests.
- - Unit test helps documenting the code, and improves application implementation by ensuring the testability of the code.
+ - Unit test helps documenting the code, and improves the code quality by ensuring the testability of the code.
 
-This tutorial shows that unit test of individual rules and rule-functions is not only necessary, but also achievable for TIBCO BusinessEvents applications. 
+This tutorial shows that unit test of individual rules and rule-functions is not only necessary, but also achievable for TIBCO BusinessEvents applications.
 
 ## Clone the tutorial utility
 
