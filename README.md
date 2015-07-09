@@ -134,20 +134,20 @@ This test implements a common pattern for verifying rules in preprocessor contex
  - `cleanAccount()` deletes any harmful objects from the cache, so the same test can run multiple times with the same result.
  - It then creates a new account for the test.  The first call of `Engine.executeRules()` commits the new account to the cache.
  - It then loads the new account into working memory using `CacheLoadConceptByExtId()`.
- - It then creates and asserts a `Debit` event into working memory, and fires the `ApplyDebit` rule using a second call to `Engine.executeRules()`.
+ - It then creates and asserts a `Debit` event into working memory, and fires the `ApplyDebit` rule using a second call of `Engine.executeRules()`.
  - It then reloads the updated account from cache by calling `CacheLoadConceptByExtId()` again.
- - 4 assert statements verify that the account is corrected updated by the `ApplyDebit` rule.
+ - 4 assert statements verify that the account is correctly updated by the `ApplyDebit` rule.
  - A runtime exception would be thrown if any assert statement fails; the exception would be caught and counted by the test service.
 
 More advanced assertion are supported by the catalog functions in `beassert-1.0-jar`.  Refer to the unit tests in [DataTypeDemo](https://github.com/yxuco/DataTypeDemo) for more examples.
 
 ## Execute tests at BE engine startup
 
-During development, the easiest way to launch unit tests is at BE engine startup.  However, tests for rules can only be launched after the engine is fully started. So, the test service implemented a scheduler to launch rule tests 3 seconds after the engine statup.
+During development, the easiest way to launch unit tests is at BE engine startup.  However, tests for rules can only be launched after the engine is fully started. So, the test service implemented a scheduler to launch rule tests 3 seconds after the engine startup.
 
 2 helper functions are used to launch unit tests at engine startup:
  - `allStartupTests`, which lists all tests to be executed during engine startup.  You can add test names to this function for tests that can be launched during startup, which includes tests of functions in preprocessor context.
- - `allScheduledTests`, which lists all tests to be scheduled after the engine startup.  You can add test names to this functions for tests that cannot be launched during startup, which includes tests for rules and functions in rule context.
+ - `allScheduledTests`, which lists all tests to be scheduled after the engine startup.  You can add test names to this function for tests that cannot be launched during startup, which includes tests for rules and functions in rule context.
 
 Open `fdcache.cdd`, and add these 2 functions to **Startup Functions** of the **Inference-class** in the **Agent Classes** tab.
 
@@ -157,7 +157,7 @@ Highlight project root **FraudDetectionCache**, pull down menu **Run -> Run Conf
  - **CDD File:** full path to `fdcache.cdd` in the project workspace
  - **Processing Unit:** `default`
  - **Working Directory:** the `betest_tutorial` directory where you put `fdcache.ear`
- - **EAR File:** full path to `fdcache.ear`
+ - **EAR File:** full path of `fdcache.ear`
  - **ClassPath:** Open the ClassPath tab, add `junit-4.12.jar` and `hamcrest-core-1.3.jar` to the **Third Party** library.  You can find these 2 jars from your local Maven repository, or from the downloaded `betest_tutorial/lib` folder.
 
 This launches the BE engine in BusinessEvents Studio.  Test completed messages should show up in the Console log.
@@ -168,14 +168,14 @@ Although it is quick to launch unit tests at engine startup during development, 
 
 This section will build a test driver based on JUnit, and so you can visualize the test results in Eclipse, or Jenkins, or any other tools that are integrated with JUnit.
 
-This test driver is implemented in [BE Unit](https://github.com/yxuco/beunit), which may be already in your workspace.  We’ll create a copy of the project any way to explain the process.
+This test driver is implemented in [BE Unit](https://github.com/yxuco/beunit), which may be already in your workspace if you have tried the [beunit](https://github.com/yxuco/beunit) project previously.  We’ll create a copy of this project to explain the process.
 
 In your workspace, clone the [beunit](https://github.com/yxuco/beunit) project and name it `FraudDetectionTest` using the command:
 
     git clone https://github.com/yxuco/beunit.git FraudDetectionTest
 
 In BusinessEvents Studio, import and configure the project as follows:
- - Pulldown menu **File -> Import…**, and select **Existing Maven Projects**, Click **Next >**
+ - Pull down menu **File -> Import…**, and select **Existing Maven Projects**, Click **Next >**
  - **Browse** Root Directory and select the cloned project `FraudDetectionTest`
  - Open the **Advanced** section, and specify **Name template:** as `FraudDetectionTest`, click **Finish**
  - Select the **FraudDetectionTest** project, close all files, and pull down menu **Window -> Open Perspective** to open **Java** Perspective.
