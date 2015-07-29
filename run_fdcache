@@ -2,4 +2,4 @@
 export BE_HOME=/usr/local/tibco_be/be/5.2
 export BE_WS=~/Developer/be_workspace
 
-${BE_HOME}/bin/be-engine --propFile be-engine.tra -u default -c ${BE_WS}/FraudDetectionCache/fdcache.cdd fdcache.ear
+${BE_HOME}/bin/be-engine --propFile be-engine.tra --propVar jmx_port=9899 -u default -c ${BE_WS}/FraudDetectionCache/fdcache.cdd fdcache.ear

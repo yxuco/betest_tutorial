@@ -214,8 +214,8 @@ application.args %APP_ARGS%
 # You can specify LDAP authentication in the project CDD file.
 # Consult documentation for more details.
 #
-#java.property.be.engine.jmx.connector.port=%jmx_port%
-#java.property.be.engine.jmx.connector.authenticate=false
+java.property.be.engine.jmx.connector.port=%jmx_port%
+java.property.be.engine.jmx.connector.authenticate=false
 
 # Jars that should be skipped by Tomcat server's TLDJarScanner
 tomcat.util.scan.DefaultJarScanner.jarsToSkip=xdata.jar,tibrvj.jar
