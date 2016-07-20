@@ -9,10 +9,11 @@ void rulefunction Test.RuleTests.testBadCreateAccount {
 		
 	}
 	body {
-        Object logger = Log.getLogger("Test.RuleTests.testBadCreateAccount");
-        Log.log(logger, "info", "Start Test.RuleTests.testBadCreateAccount");
-        
         String acctId = "BadCreateAccount";
+
+        Object logger = Log.getLogger("Test.RuleTests.testBadCreateAccount");
+        Log.log(logger, "info", "Start acctId=" + acctId);
+        
         cleanupAccount(acctId);
         
         // create account for the test
@@ -23,26 +24,31 @@ void rulefunction Test.RuleTests.testBadCreateAccount {
             "Suspended" /*Status String */,
             2000 /*AvgMonthlyBalance double */);
         Engine.executeRules();
+        Log.log(logger, "info", "Created suspended account acctId=" + acctId);
         
-        // load account into working memory
-        Account acct = Cluster.DataGrid.CacheLoadConceptByExtId(acctId, true);
         Events.CreateAccount evt = Events.CreateAccount.CreateAccount(
             null /*extId String */,
             null /*payload String */,
             acctId /*AccountId String */,
             2000 /*AvgMonthlyBalance double */,
             20000 /*Balance double */);
+		Log.log(logger, "info", "Created new account event: acctId=" + acctId);
+        
+        // call preprocessor
+        PreProcessor(evt);
             
         // execute all rules for debit event, but only the BadCreateAccount rule will be triggered
         Event.assertEvent(evt);
+		Log.log(logger, "info", "Assert new account event: acctId=" + acctId);
         Engine.executeRules();
         
         // reload updated account to verify the update
-        acct = Cluster.DataGrid.CacheLoadConceptByExtId(acctId, true);
+        Account acct = Cluster.DataGrid.CacheLoadConceptByExtId(acctId, true);
+		Log.log(logger, "info", "Verify account not updated: acctId=" + acctId);
         assertNotNull(String.format("Account %s exists", acctId), acct);
         assertWithinRange("Account balance is not updated", -100, acct.Balance, 0.001);
         assertThat("Account status is not updated", acct.Status, equalTo("Suspended"));
        
-        Log.log(logger, "info", "Completed Test.RuleTests.testBadCreateAccount");       		
+        Log.log(logger, "info", "Completed acctId=" + acctId);       		
 	}
 }

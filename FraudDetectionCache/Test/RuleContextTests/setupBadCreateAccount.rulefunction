@@ -1,0 +1,20 @@
+/**
+ * @description 
+ */
+void rulefunction Test.RuleContextTests.setupBadCreateAccount {
+	attribute {
+		validity = ACTION;
+	}
+	scope {
+		
+	}
+	body {
+		String acctId = "BadCreateAccount2";
+
+		Object logger = Log.getLogger("Test.RuleContextTests.setupBadCreateAccount");
+		Log.log(logger, "info", "Start acctId=" + acctId);
+
+		createAccount(acctId, "Suspended");       
+        Log.log(logger, "info", "Completed setup acctId=" + acctId);
+	}
+}

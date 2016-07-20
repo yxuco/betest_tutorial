@@ -20,6 +20,8 @@ rule Rules.UnsuspendAccount {
 	}
 	
 	then {
+		Object logger = Log.getLogger("Rules.UnsuspendAccount");
+		Log.log(logger, "info", "Update to normal acctId=" + account@extId);
 		account.Status = "Normal";
 	}
 	

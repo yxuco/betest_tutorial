@@ -17,7 +17,8 @@ rule Rules.BadApplyDebit {
 	}
 	
 	then {
-		System.debugOut("#### Debit not applied, account not found: " + debit.AccountId);	
+		Object logger = Log.getLogger("Rules.BadApplyDebit");
+		Log.log(logger, "info", "#### Debit not applied, account not found: " + debit.AccountId);	
 		Event.consumeEvent(debit);	
 	}
 	

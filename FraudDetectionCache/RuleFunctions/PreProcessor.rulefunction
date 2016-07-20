@@ -10,12 +10,20 @@ void rulefunction RuleFunctions.PreProcessor {
 		Events.AccountOperations request;
 	}
 	body {
+		Object logger = Log.getLogger("RuleFunctions.PreProcessor");
+		Log.log(logger, "info", "Received event acctId=" + request.AccountId);
+		
 		// Replies to the request event, in order to close the HTTP request.
 		// To keep it simple, uses the request event as the response. 
 		Event.replyEvent(request, request);		
 
 		// Attempts to load any existing matching account.
-		Cluster.DataGrid.CacheLoadConceptByExtId(request.AccountId, false); 
+		Account acct = Cluster.DataGrid.CacheLoadConceptByExtId(request.AccountId, false); 
+        if (acct != null) {
+			Log.log(logger, "info", "Loaded account acctId=" + acct@extId);
+        } else {
+			Log.log(logger, "info", "Could not load account acctId=" + request.AccountId);
+        }
 	}
 	
 }

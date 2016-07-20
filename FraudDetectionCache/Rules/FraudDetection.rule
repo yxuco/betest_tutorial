@@ -33,8 +33,10 @@ rule Rules.FraudDetection {
 	}
 	
 	then {
+		Object logger = Log.getLogger("Rules.FraudDetection");
+		Log.log(logger, "info", "Start acctId=" + account@extId);
 		account.Status = "Suspended";
-		System.debugOut("#### Account ID " + account@extId
+		Log.log(logger, "info", "#### Account ID " + account@extId
 		        + " STATUS set to Suspended. Fraud suspected.");
 	}
 	

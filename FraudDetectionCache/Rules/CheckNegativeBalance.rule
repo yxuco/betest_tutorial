@@ -21,8 +21,11 @@ rule Rules.CheckNegativeBalance {
 	}
 	
 	then {
+		Object logger = Log.getLogger("Rules.CheckNegativeBalance");
+		Log.log(logger, "info", "Start acctId=" + account@extId + " balance=" + account.Balance);
+
 		account.Status = "Suspended";
-		System.debugOut("#### Account ID " + account@extId
+		Log.log(logger, "info", "#### Account ID " + account@extId
 		    + " STATUS set to Suspended. Balance "
 		    + account.Balance + " is less than zero");
 	}

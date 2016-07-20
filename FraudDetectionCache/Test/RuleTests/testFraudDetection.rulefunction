@@ -1,0 +1,55 @@
+/**
+ * @description 
+ */
+void rulefunction Test.RuleTests.testFraudDetection {
+	attribute {
+		validity = ACTION;
+	}
+	scope {
+		
+	}
+	body {
+		String acctId = "FraudDetection";
+
+		Object logger = Log.getLogger("Test.RuleTests.testFraudDetection");
+		Log.log(logger, "info", "Start acctId=" + acctId);
+		
+		cleanupAccount(acctId);
+		
+		// create account for the test
+		Concepts.Account.Account(
+            acctId /*extId String */,
+            20000 /*Balance double */,
+            0 /*Debits double */,
+            "Normal" /*Status String */,
+            2000 /*AvgMonthlyBalance double */);
+        Engine.executeRules();
+		Log.log(logger, "info", "Created account acctId=" + acctId);
+
+		for (int i = 0; i < 2; i++) {
+        	Debit evt = Events.Debit.Debit(
+            	null /*extId String */,
+            	null /*payload String */,
+            	acctId /*AccountId String */,
+            	2000 /*Amount double */);
+			Log.log(logger, "info", "Created Debit event: acctId=" + acctId);
+        
+        	// call preprocessor
+        	PreProcessor(evt);
+        
+        	// execute all rules for debit event, but only the ApplyDebit rule will be triggered
+        	Event.assertEvent(evt);
+			Log.log(logger, "info", "Assert Debit event: acctId=" + acctId + " debit=" + i);
+        	Engine.executeRules();
+		}
+        
+        // reload updated account to verify the update
+        Account acct = Cluster.DataGrid.CacheLoadConceptByExtId(acctId, true);
+		Log.log(logger, "info", "Verify account after debit: acctId=" + acctId);
+        assertNotNull(String.format("Account %s exists", acctId), acct);
+        assertWithinRange("Account balance is updated", 20000 - 4000, acct.Balance, 0.001);
+        assertThat("Account status is set", acct.Status, equalTo("Suspended"));
+       
+        Log.log(logger, "info", "Completed test acctId=" + acctId);
+	}
+}

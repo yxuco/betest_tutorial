@@ -9,10 +9,11 @@ void rulefunction Test.RuleTests.testCheckNegativeBalance {
 		
 	}
 	body {
-		Object logger = Log.getLogger("Test.RuleTests.testCheckNegativeBalance");
-		Log.log(logger, "info", "Start Test.RuleTests.testCheckNegativeBalance");
-		
 		String acctId = "CheckNegativeBalance";
+
+		Object logger = Log.getLogger("Test.RuleTests.testCheckNegativeBalance");
+		Log.log(logger, "info", "Start acctId=" + acctId);
+		
 		cleanupAccount(acctId);
 		
 		Concepts.Account.Account(
@@ -21,14 +22,17 @@ void rulefunction Test.RuleTests.testCheckNegativeBalance {
             0 /*Debits double */,
             "Normal" /*Status String */,
             1000 /*AvgMonthlyBalance double */);
+		Log.log(logger, "info", "Create account with negative balance acctId=" + acctId);
             
         // execute all rules, but only the CheckNegativeBalance rule will be triggered
         Engine.executeRules();
         
         // reload concept to check the status change
+		Log.log(logger, "info", "Verify suspended account acctId=" + acctId);
         Account acct = Cluster.DataGrid.CacheLoadConceptByExtId(acctId, true);
+        assertNotNull(String.format("Account %s is created", acctId), acct);
         assertThat("Account with negative balance should be suspended", acct.Status, equalTo("Suspended"));
 
-        Log.log(logger, "info", "Completed Test.RuleTests.testCheckNegativeBalance");
+        Log.log(logger, "info", "Completed acctId=" + acctId);
 	}
 }

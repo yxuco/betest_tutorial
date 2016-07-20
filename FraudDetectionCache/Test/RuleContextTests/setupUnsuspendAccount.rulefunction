@@ -1,0 +1,20 @@
+/**
+ * @description 
+ */
+void rulefunction Test.RuleContextTests.setupUnsuspendAccount {
+	attribute {
+		validity = ACTION;
+	}
+	scope {
+		
+	}
+	body {
+		String acctId = "UnsuspendAccount2";
+
+		Object logger = Log.getLogger("Test.RuleContextTests.setupUnsuspendAccount");
+		Log.log(logger, "info", "Start acctId=" + acctId);
+
+		createAccount(acctId, "Suspended");       
+        Log.log(logger, "info", "Completed setup acctId=" + acctId);
+	}
+}

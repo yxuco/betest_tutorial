@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cluster xmlns="http://tibco.com/businessevents/configuration/5.2">
     <revision>
-        <version>48</version>
+        <version>60</version>
         <author>TIBCO Software Inc.</author>
-        <date>2015/07/06 13:27:17</date>
+        <date>2016/07/18 15:46:27</date>
         <comment/>
     </revision>
     <name>fdcache</name>
@@ -16,8 +16,8 @@
             <cache-agent-quorum/>
             <backup-copies>1</backup-copies>
             <entity-cache-size>10000</entity-cache-size>
-            <discovery-url/>
-            <listen-url/>
+            <discovery-url>tcp://127.0.0.1:30001</discovery-url>
+            <listen-url>tcp://127.0.0.1:30001</listen-url>
             <remote-listen-url/>
             <protocol-timeout>-1</protocol-timeout>
             <read-timeout>60000</read-timeout>
@@ -54,9 +54,9 @@
                 <evict-on-update>false</evict-on-update>
                 <cache-limited>false</cache-limited>
                 <subscribe>true</subscribe>
-                <pre-load-enabled>false</pre-load-enabled>
+                <pre-load-enabled>true</pre-load-enabled>
                 <pre-load-fetch-size>0</pre-load-fetch-size>
-                <pre-load-handles>false</pre-load-handles>
+                <pre-load-handles>true</pre-load-handles>
                 <domain-object>
                     <cache-limited>true</cache-limited>
                     <evict-on-update>true</evict-on-update>
@@ -220,6 +220,24 @@
                 <uri>/Channels/HTTP/AllOps</uri>
             </destination>
         </destinations>
+        <destinations id="Test">
+            <destination id="query_01">
+                <pre-processor>/testservice/RuleFunctions/processQueryRequest</pre-processor>
+                <queue-size>0</queue-size>
+                <thread-count/>
+                <threading-model>shared-queue</threading-model>
+                <thread-affinity-rule-function/>
+                <uri>/testservice/test/query</uri>
+            </destination>
+            <destination id="function_01">
+                <pre-processor>/testservice/RuleFunctions/processFunctionRequest</pre-processor>
+                <queue-size>0</queue-size>
+                <thread-count/>
+                <threading-model>shared-queue</threading-model>
+                <thread-affinity-rule-function/>
+                <uri>/testservice/test/function</uri>
+            </destination>
+        </destinations>
     </destination-groups>
     <process-groups/>
     <log-configs>
@@ -257,27 +275,10 @@
             </rules>
             <destinations>
                 <ref>Http</ref>
-                <destination id="TestFunction_01">
-                    <pre-processor>/testservice/RuleFunctions/processFunctionRequest</pre-processor>
-                    <queue-size/>
-                    <thread-count/>
-                    <threading-model>shared-queue</threading-model>
-                    <thread-affinity-rule-function/>
-                    <uri>/testservice/test/function</uri>
-                </destination>
-                <destination id="TestTrigger_01">
-                    <pre-processor>/testservice/TestScheduler/processPreprocTestTrigger</pre-processor>
-                    <queue-size/>
-                    <thread-count/>
-                    <threading-model>shared-queue</threading-model>
-                    <thread-affinity-rule-function/>
-                    <uri>/testservice/TestScheduler/TestTriggerChannel/PreprocTestTrigger</uri>
-                </destination>
+                <ref>Test</ref>
             </destinations>
             <startup>
                 <uri>/RuleFunctions/InitializeScorecard</uri>
-                <uri>/Test/allStartupTests</uri>
-                <uri>/Test/allScheduledTests</uri>
             </startup>
             <shutdown/>
             <local-cache>

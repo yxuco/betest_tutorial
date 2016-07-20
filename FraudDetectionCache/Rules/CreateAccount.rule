@@ -17,6 +17,8 @@ rule Rules.CreateAccount {
 	}
 	
 	then {
+		Object logger = Log.getLogger("Rules.CreateAccount");
+		Log.log(logger, "info", "Start acctId=" + request.AccountId + " balance=" + request.Balance);
 		Concepts.Account.Account(
 		    request.AccountId         /*extId String */,
 		    request.Balance           /*Balance double */,
@@ -24,7 +26,7 @@ rule Rules.CreateAccount {
 		    "Normal"                  /*Status String */,
 		    request.AvgMonthlyBalance /*AvgMonthlyBalance double */);
 		
-		System.debugOut("#### Created account " + request.AccountId);
+		Log.log(logger, "info", "#### Created account " + request.AccountId);
 
 		Event.consumeEvent(request);		
 	}

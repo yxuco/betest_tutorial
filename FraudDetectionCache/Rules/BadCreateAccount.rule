@@ -10,8 +10,8 @@ rule Rules.BadCreateAccount {
 	}
 	
 	declare {
-		Concepts.Account existingAccount;
 		Events.CreateAccount request;
+		Concepts.Account existingAccount;
 	}
 	
 	when {
@@ -21,7 +21,8 @@ rule Rules.BadCreateAccount {
 	}
 	
 	then {
-		System.debugOut("#### Account already exists: " + request.AccountId);	
+		Object logger = Log.getLogger("Rules.BadCreateAccount");
+		Log.log(logger, "info", "#### Account already exists: " + request.AccountId);	
 		Event.consumeEvent(request);
 	}
 	

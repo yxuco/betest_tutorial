@@ -10,11 +10,11 @@ void rulefunction Test.FunctionTests.testInitializeScorecard {
 	}
 	body {
 		Object logger = Log.getLogger("Test.FunctionTests.testInitializeScorecard");
-		Log.log(logger, "info", "Start Test.FunctionTests.testInitializeScorecard");
+		Log.log(logger, "info", "Start test scorecard");
 		RuleFunctions.InitializeScorecard();
 		assertTrue("Initialized FraudCriteria interval", FraudCriteria.interval == 120*1000);
         assertTrue("Initialized FraudCriteria numTransactions", FraudCriteria.numTransactions == 3);
-        assertWithinRange("Initialized FraudCriteria numTransactions", .8, FraudCriteria.debitsPercent, 0.001);
-        Log.log(logger, "info", "Completed Test.FunctionTests.testInitializeScorecard");
+        assertWithinRange("Initialized FraudCriteria numTransactions", .5, FraudCriteria.debitsPercent, 0.001);
+        Log.log(logger, "info", "Completed test scorecard");
 	}
 }

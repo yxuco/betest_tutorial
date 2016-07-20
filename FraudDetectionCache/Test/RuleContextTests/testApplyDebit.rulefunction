@@ -1,0 +1,59 @@
+/**
+ * @description execute rule ApplyDebit in rule context. Note: setupApplyDebit must be executed before this invocation.
+ */
+void rulefunction Test.RuleContextTests.testApplyDebit {
+	attribute {
+		validity = ACTION;
+	}
+	scope {
+		
+	}
+	body {
+		String acctId = "ApplyDebit2";
+
+		Object logger = Log.getLogger("Test.RuleContextTests.testApplyDebit");
+		Log.log(logger, "info", "Start acctId=" + acctId);
+
+		// load account and assert to wm for rule execution
+		// this concept must be created during setup stage before this test
+		Concepts.Account acct = Cluster.DataGrid.CacheLoadConceptByExtId(acctId, true);
+		assertThat("Account must be setup before this test execution",
+				acct, notNullValue());
+		Log.log(logger, "info", "Loaded account: acctId=" + acctId);		
+		
+		// create Debit event, which is the first scope variable of the rule ApplyDebit
+        Debit evt = Events.Debit.Debit(
+            null /*extId String */,
+            null /*payload String */,
+            acctId /*AccountId String */,
+            2000 /*Amount double */);
+		Log.log(logger, "info", "Created Debit event: acctId=" + acctId);
+        
+		// invoke one rule, and return array of matching scope tuples.
+		Object[] result = Engine.invokeRule(
+			"/Rules/ApplyDebit",
+			Object[]{evt},
+			true /*enable dirty read */);
+			
+		// verify the returned results
+		Log.log(logger, "info", "Rule returned %d matching tuples", result@length);
+		assertThat("One account executed debit", 
+			result@length, equalTo(1));
+		for (int i = 0; i < result@length; i++) {
+			Object[] objs = result[i];
+			assertThat("Rule matched tuple must not be null",
+				objs, notNullValue());
+			assertThat("Rule matched tuple must contain 2 objects",
+				objs@length, equalTo(2));
+			assertThat("2nd object in matched tuple must be a Concepts.Account",
+				objs[1], instanceOf("/Concepts/Account"));
+			
+			Concepts.Account iAcct = objs[1];
+			assertThat("Account Id matches event", iAcct@extId, equalTo(acctId));
+        	assertWithinRange("Account balance is updated", 20000 - 2000, iAcct.Balance, 0.001);
+        	assertWithinRange("Account debit is recorded", 2000, iAcct.Debits, 0.001);
+        	assertThat("Account status is set", iAcct.Status, equalTo("Normal"));
+		}
+		Log.log(logger, "info", "Completed test acctId=", acctId);
+	}
+}

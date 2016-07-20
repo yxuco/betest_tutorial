@@ -1,0 +1,31 @@
+/**
+ * @description in preprocessor context, delete existing concept, and recreate it with default values.
+ */
+Concepts.Account rulefunction Test.RuleContextTests.Helper.createAccount {
+	attribute {
+		validity = ACTION;
+	}
+	scope {
+		String acctId;
+		String status;
+	}
+	body {
+		Object logger = Log.getLogger("Test.RuleContextTests.Helper.createAccount");
+		Log.log(logger, "info", "Start acctId=" + acctId);
+		Account acct = Instance.getByExtId(acctId);
+		if (acct != null) {
+			Instance.deleteInstance(acct);
+            Log.log(logger, "info", "Deleted old account " + acctId);
+		}
+		
+		Account newAcct = Concepts.Account.Account(
+            acctId /*extId String */,
+            20000 /*Balance double */,
+            0 /*Debits double */,
+            status /*Status String */,
+            2000 /*AvgMonthlyBalance double */);
+		
+        Log.log(logger, "info", "Completed acctId=" + acctId);
+        return newAcct;
+	}
+}

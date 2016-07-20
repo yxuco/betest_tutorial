@@ -1,0 +1,20 @@
+/**
+ * @description 
+ */
+void rulefunction Test.RuleContextTests.setupApplyDebit {
+	attribute {
+		validity = ACTION;
+	}
+	scope {
+		
+	}
+	body {
+		String acctId = "ApplyDebit2";
+
+		Object logger = Log.getLogger("Test.RuleContextTests.setupApplyDebit");
+		Log.log(logger, "info", "Start acctId=" + acctId);
+
+		createAccount(acctId, "Normal");       
+        Log.log(logger, "info", "Completed setup acctId=" + acctId);
+	}
+}

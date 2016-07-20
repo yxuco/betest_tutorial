@@ -1,7 +1,7 @@
 /**
  * @description 
  */
-void rulefunction Test.RuleTests.testApplyDebit {
+void rulefunction Test.RuleTests.testApplyDebitOnSuspendedAcct {
 	attribute {
 		validity = ACTION;
 	}
@@ -9,9 +9,9 @@ void rulefunction Test.RuleTests.testApplyDebit {
 		
 	}
 	body {
-		String acctId = "ApplyDebit";
+		String acctId = "ApplyDebitSuspended";
 
-		Object logger = Log.getLogger("Test.RuleTests.testApplyDebit");
+		Object logger = Log.getLogger("Test.RuleTests.testApplyDebitOnSuspendedAcct");
 		Log.log(logger, "info", "Start acctId=" + acctId);
 		
 		cleanupAccount(acctId);
@@ -21,7 +21,7 @@ void rulefunction Test.RuleTests.testApplyDebit {
             acctId /*extId String */,
             20000 /*Balance double */,
             0 /*Debits double */,
-            "Normal" /*Status String */,
+            "Suspended" /*Status String */,
             2000 /*AvgMonthlyBalance double */);
         Engine.executeRules();
 		Log.log(logger, "info", "Created account acctId=" + acctId);
@@ -45,9 +45,9 @@ void rulefunction Test.RuleTests.testApplyDebit {
         Account acct = Cluster.DataGrid.CacheLoadConceptByExtId(acctId, true);
 		Log.log(logger, "info", "Verify account after debit: acctId=" + acctId);
         assertNotNull(String.format("Account %s exists", acctId), acct);
-        assertWithinRange("Account balance is updated", 20000 - 2000, acct.Balance, 0.001);
-        assertWithinRange("Account debit is recorded", 2000, acct.Debits, 0.001);
-        assertThat("Account status is set", acct.Status, equalTo("Normal"));
+        assertWithinRange("Account balance is updated", 20000, acct.Balance, 0.001);
+        assertWithinRange("Account debit is recorded", 0, acct.Debits, 0.001);
+        assertThat("Account status is set", acct.Status, equalTo("Suspended"));
        
         Log.log(logger, "info", "Completed test acctId=" + acctId);
 	}

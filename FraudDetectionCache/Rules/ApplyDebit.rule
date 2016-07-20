@@ -17,18 +17,22 @@ rule Rules.ApplyDebit {
 		account@extId == debit.AccountId;
 	}
 	then {
+		Object logger = Log.getLogger("Rules.ApplyDebit");
+		Log.log(logger, "info", "Start acctId=" + debit.AccountId + " amount=" + debit.Amount);
+		
 		//If Account Status is not Suspended, debits the account
-		if (account.Status !="Suspended") {
-	       	account.Debits=debit.Amount;
-	       	System.debugOut("#### Debiting account " + account@extId + " by $" + debit.Amount);
-	       	account.Balance=account.Balance - debit.Amount;
-	       	System.debugOut("#### New balance: $" + account.Balance);
+		if (account.Status != "Suspended") {
+	       	account.Debits = debit.Amount;
+	       	Log.log(logger, "info", "#### Debiting account " + account@extId + " by $" + debit.Amount);
+	       	account.Balance = account.Balance - debit.Amount;
+	       	Log.log(logger, "info", "#### New balance: $" + account.Balance);
 	    }
 		else {
-	       	System.debugOut("#### Cannot debit the suspended account " + account@extId);
+	       	Log.log(logger, "info", "#### Cannot debit the suspended account " + account@extId);
 		}
 		
 		Event.consumeEvent(debit);
+		Log.log(logger, "info", "Completed acctId=" + debit.AccountId + " amount=" + debit.Amount);
 	}
 
 }
