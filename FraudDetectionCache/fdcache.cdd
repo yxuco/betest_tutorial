@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cluster xmlns="http://tibco.com/businessevents/configuration/5.2">
     <revision>
-        <version>60</version>
+        <version>67</version>
         <author>TIBCO Software Inc.</author>
-        <date>2016/07/18 15:46:27</date>
+        <date>2016/07/20 01:19:36</date>
         <comment/>
     </revision>
     <name>fdcache</name>
@@ -113,7 +113,7 @@
                 <domain-object>
                     <cache-limited>true</cache-limited>
                     <evict-on-update>true</evict-on-update>
-                    <mode>cache</mode>
+                    <mode>memory</mode>
                     <uri>/Events/AccountOperations</uri>
                     <backing-store>
                         <enabled>false</enabled>
@@ -132,7 +132,7 @@
                 <domain-object>
                     <cache-limited>true</cache-limited>
                     <evict-on-update>true</evict-on-update>
-                    <mode>cache</mode>
+                    <mode>memory</mode>
                     <uri>/Events/CreateAccount</uri>
                     <backing-store>
                         <enabled>false</enabled>
@@ -154,7 +154,7 @@
                 <domain-object>
                     <cache-limited>true</cache-limited>
                     <evict-on-update>true</evict-on-update>
-                    <mode>cache</mode>
+                    <mode>memory</mode>
                     <uri>/Events/Debit</uri>
                     <backing-store>
                         <enabled>false</enabled>
@@ -173,7 +173,7 @@
                 <domain-object>
                     <cache-limited>true</cache-limited>
                     <evict-on-update>true</evict-on-update>
-                    <mode>cache</mode>
+                    <mode>memory</mode>
                     <uri>/Events/Unsuspend</uri>
                     <backing-store>
                         <enabled>false</enabled>
@@ -221,14 +221,6 @@
             </destination>
         </destinations>
         <destinations id="Test">
-            <destination id="query_01">
-                <pre-processor>/testservice/RuleFunctions/processQueryRequest</pre-processor>
-                <queue-size>0</queue-size>
-                <thread-count/>
-                <threading-model>shared-queue</threading-model>
-                <thread-affinity-rule-function/>
-                <uri>/testservice/test/query</uri>
-            </destination>
             <destination id="function_01">
                 <pre-processor>/testservice/RuleFunctions/processFunctionRequest</pre-processor>
                 <queue-size>0</queue-size>
@@ -236,6 +228,16 @@
                 <threading-model>shared-queue</threading-model>
                 <thread-affinity-rule-function/>
                 <uri>/testservice/test/function</uri>
+            </destination>
+        </destinations>
+        <destinations id="ScheduledTest">
+            <destination id="preprocTest_01">
+                <pre-processor>/testservice/TestScheduler/processPreprocTestTrigger</pre-processor>
+                <queue-size>0</queue-size>
+                <thread-count/>
+                <threading-model>shared-queue</threading-model>
+                <thread-affinity-rule-function/>
+                <uri>/testservice/TestScheduler/scheduledTest/preprocTest</uri>
             </destination>
         </destinations>
     </destination-groups>
@@ -276,9 +278,12 @@
             <destinations>
                 <ref>Http</ref>
                 <ref>Test</ref>
+                <ref>ScheduledTest</ref>
             </destinations>
             <startup>
                 <uri>/RuleFunctions/InitializeScorecard</uri>
+                <uri>/Test/TestOnStartup/invokeFunctionTests</uri>
+                <uri>/Test/TestOnStartup/dispatchRuleTests</uri>
             </startup>
             <shutdown/>
             <local-cache>

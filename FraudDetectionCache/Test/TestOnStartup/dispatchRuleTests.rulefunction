@@ -1,0 +1,43 @@
+/**
+ * @description Rule tests cannot be called directly at startup, so dispatch a worker to run them.
+ */
+void rulefunction Test.TestOnStartup.dispatchRuleTests {
+	attribute {
+		validity = ACTION;
+	}
+	scope {
+		
+	}
+	body {
+		Object logger = Log.getLogger("Test.TestOnStartup.dispatchRuleTests");
+		
+		// setup for rule context tests
+        // functions for setup data of rule context tests
+		Log.log(logger, "info", "setup for tests in rule context");
+        String[] tests = String[]{
+        	"/Test/RuleContextTests/setupApplyDebit",
+            "/Test/RuleContextTests/setupBadCreateAccount",
+            "/Test/RuleContextTests/setupUnsuspendAccount"};
+		for (int i = 0; i < tests@length; i++) {
+            Log.log(logger, "info", "Invoke %s", tests[i]);
+            testservice.TestScheduler.printTestResult(tests[i],
+                testservice.RuleFunctions.invokeTest(tests[i]));
+		}
+		
+		// dispatch rule tests in preprocessor context
+		Log.log(logger, "info", "dispatch rule tests in preproc context");
+		testservice.RuleFunctions.dispatchTestWorker(
+			"RuleTestWorker" /*worker String */,
+			1 /*threads int */,
+			"/Test/TestOnStartup/allRuleTests" /*testFunction String */,
+			true /*inPreproc boolean */);
+		
+		// dispatch rule tests in rule context
+		Log.log(logger, "info", "dispatch rule tests in rule context");
+		testservice.RuleFunctions.dispatchTestWorker(
+			"RuleContextTestWorker" /*worker String */,
+			1 /*threads int */,
+			"/Test/TestOnStartup/allRuleContextTests" /*testFunction String */,
+			false /*inPreproc boolean */);
+	}
+}

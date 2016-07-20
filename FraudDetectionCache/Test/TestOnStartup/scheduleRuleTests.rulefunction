@@ -1,7 +1,7 @@
 /**
- * @description 
+ * @description rule tests that cannot run at startup, and thus scheduled to run after startup.  These tests can also use dispatched worker.
  */
-void rulefunction Test.allScheduledTests {
+void rulefunction Test.TestOnStartup.scheduleRuleTests {
 	attribute {
 		validity = ACTION;
 	}
@@ -10,11 +10,12 @@ void rulefunction Test.allScheduledTests {
 	}
 	body {
         Object logger = Log.getLogger("Test.allScheduledTests");
-        Log.log(logger, "info", "Start Test.allScheduledTests");
+        Log.log(logger, "info", "Start schedule tests");
         
         // list all rule tests for preprocessor context
         String[] tests = String[]{
         	"/Test/RuleTests/testApplyDebit",
+        	"/Test/RuleTests/testApplyDebitOnSuspendedAcct",
             "/Test/RuleTests/testBadApplyDebit",
             "/Test/RuleTests/testBadCreateAccount",
             "/Test/RuleTests/testCheckNegativeBalance",
@@ -22,7 +23,7 @@ void rulefunction Test.allScheduledTests {
             "/Test/RuleTests/testUnsuspendAccount"};
 
         // concat all preproc tests in a single timer
-        Object buff = String.createBuffer(100);
+        Object buff = String.createBuffer(1000);
         for (int i = 0; i < tests@length; i++) {
         	String.append(buff, tests[i]);
         	String.append(buff, ";");
@@ -34,6 +35,6 @@ void rulefunction Test.allScheduledTests {
             true /*isPreproc boolean */,
             3000 /*delay long */);
 
-        Log.log(logger, "info", "Completed Test.allScheduledTests");
+        Log.log(logger, "info", "Completed schedule tests");
 	}
 }

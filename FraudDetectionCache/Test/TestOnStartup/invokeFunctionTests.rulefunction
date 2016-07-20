@@ -1,0 +1,27 @@
+/**
+ * @description Tests that can run directly at engine startup. Most function tests are this type.
+ */
+void rulefunction Test.TestOnStartup.invokeFunctionTests {
+	attribute {
+		validity = ACTION;
+	}
+	scope {
+		
+	}
+	body {
+        Object logger = Log.getLogger("Test.TestOnStartup.allFunctionTests");
+        Log.log(logger, "info", "Start function tests");
+        
+        // list all function tests that can run at engine startup
+        String[] tests = String[]{
+            "/Test/FunctionTests/testInitializeScorecard"};
+            
+        // invoke tests sequentially
+        for (int i = 0; i < tests@length; i++) {
+        	testservice.TestScheduler.printTestResult(tests[i],
+            	testservice.RuleFunctions.invokeTest(tests[i]));
+        }
+        
+        Log.log(logger, "info", "Completed function tests");	
+	}
+}

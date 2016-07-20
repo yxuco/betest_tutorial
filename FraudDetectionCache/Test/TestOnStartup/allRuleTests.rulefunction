@@ -1,0 +1,35 @@
+/**
+ * @description Use dispatched manager to test these rules in preprocessor context. Do not call this directly at startup
+ */
+boolean rulefunction Test.TestOnStartup.allRuleTests {
+	attribute {
+		validity = ACTION;
+	}
+	scope {
+		
+	}
+	body {
+        Object logger = Log.getLogger("Test.TestOnStartup.allRuleTests");
+        Log.log(logger, "info", "Start rule tests, sleep and wait at startup.");
+        Engine.sleep(3000);
+        
+        // list all rule tests for preprocessor context
+        String[] tests = String[]{
+        	"/Test/RuleTests/testApplyDebit",
+        	"/Test/RuleTests/testApplyDebitOnSuspendedAcct",
+            "/Test/RuleTests/testBadApplyDebit",
+            "/Test/RuleTests/testBadCreateAccount",
+            "/Test/RuleTests/testCheckNegativeBalance",
+            "/Test/RuleTests/testCreateAccount",
+            "/Test/RuleTests/testUnsuspendAccount"};
+            
+		for (int i = 0; i < tests@length; i++) {
+            Log.log(logger, "info", "Invoke test %s in preprocessor context", tests[i]);
+            testservice.TestScheduler.printTestResult(tests[i],
+                testservice.RuleFunctions.invokeTest(tests[i]));
+		}
+
+        Log.log(logger, "info", "Completed rule tests");
+        return false; // stop worker after it is done
+	}
+}
