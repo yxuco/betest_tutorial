@@ -83,7 +83,7 @@ tibco.env.JVM_LIB_DIR=/usr/local/tibco_be/tibcojre64/1.7.0/lib/
 #           -XX:+CMSIncrementalMode -XX:+CMSIncrementalPacing -XX:+UseCMSCompactAtFullCollection -XX:CMSFullGCsBeforeCompaction=2
 #           -XX:+DisableExplicitGC -XX:+UseTLAB -XX:+UseSpinning -XX:+UseFastAccessorMethods
 #
-java.extended.properties=-server -d64 -Xms2048m -Xmx2048m -javaagent:%BE_HOME%/lib/cep-base.jar -XX:MaxPermSize=256m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC
+java.extended.properties=-server -d64 -Xms2048m -Xmx2048m -javaagent:%CUST_LIB%/jacocoagent-0.7.7.jar=output=tcpserver,address=localhost,port=6400,inclnolocationclasses=true -javaagent:%BE_HOME%/lib/cep-base.jar -XX:MaxPermSize=256m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC
 
 #
 # Parameters for remote debugging.
@@ -215,7 +215,8 @@ application.args %APP_ARGS%
 # Consult documentation for more details.
 #
 java.property.be.engine.jmx.connector.port=%jmx_port%
-java.property.be.engine.jmx.connector.authenticate=false
+#java.property.be.engine.jmx.connector.authenticate=false
+java.property.com.sun.management.jmxremote.password.file=jmxpassword.txt
 
 # Jars that should be skipped by Tomcat server's TLDJarScanner
 tomcat.util.scan.DefaultJarScanner.jarsToSkip=xdata.jar,tibrvj.jar

@@ -4,6 +4,11 @@ import org.junit.Test;
 
 import com.tibco.psg.beunit.TestHelper;
 
+/**
+ * Test rules in preprocessor context
+ * @author yxu
+ *
+ */
 public class RuleTest {
 	public static final String folder = "/Test/RuleTests/";
 
@@ -41,6 +46,18 @@ public class RuleTest {
 	public void testUnsuspendAccount() {
 		TestHelper.assertRuleFunction(
 				folder + "testUnsuspendAccount", true);
+	}
+
+	@Test
+	public void testFraudDetection() {
+		TestHelper.assertRuleFunction(
+				folder + "testFraudDetection", true);
+	}
+
+	@Test
+	public void testApplyDebitOnSuspendedAcct() {
+		TestHelper.assertRuleFunction(
+				folder + "testApplyDebitOnSuspendedAcct", true);
 	}
 
 }

@@ -2,8 +2,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.tibco.psg</groupId>
-  <artifactId>beunit</artifactId>
+  <groupId>com.tibco.be.tutorial</groupId>
+  <artifactId>FraudDetectionTest</artifactId>
   <version>1.0</version>
   <packaging>jar</packaging>
 
@@ -39,6 +39,11 @@
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
         <version>1.2</version>
+    </dependency>
+    <dependency>
+        <groupId>com.tibco.psg</groupId>
+        <artifactId>beunit</artifactId>
+        <version>1.0</version>
     </dependency>
   </dependencies>
 </project>

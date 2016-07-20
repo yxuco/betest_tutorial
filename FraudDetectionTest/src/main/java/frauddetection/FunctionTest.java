@@ -7,7 +7,7 @@ import com.tibco.psg.beunit.TestHelper;
 public class FunctionTest {
 
 	@Test
-	public void test() {
+	public void testInitializeScorecard() {
 		TestHelper.assertRuleFunction("/Test/FunctionTests/testInitializeScorecard", false);
 	}
 
