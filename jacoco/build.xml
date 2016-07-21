@@ -4,8 +4,8 @@
 
 	<property name="tibco.home" location="/usr/local/tibco_be" />
 	<property name="project.home" location="/Users/yxu/Developer/tibco/test_tutorial" />
-	<property name="jacoco.home" location="/usr/local/jacoco" />
-	<property name="jacoco.work" location="${project.home}/FraudDetectionTest/src/jacoco/work" />
+<!--	<property name="jacoco.home" location="/usr/local/jacoco" /> -->
+	<property name="jacoco.work" location="${project.home}/jacoco/work" />
 	<property name="result.report.dir" location="${jacoco.work}/reports/FraudDetection" />
 	<property name="result.exec.file.final" location="${jacoco.work}/data/jacoco-data.exec" />
 	<property name="result.exec.file.collection" location="${jacoco.work}/data" />
