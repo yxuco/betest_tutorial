@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<cluster xmlns="http://tibco.com/businessevents/configuration/5.2">
+<cluster xmlns="http://tibco.com/businessevents/configuration/5.4">
     <revision>
-        <version>67</version>
+        <version>69</version>
         <author>TIBCO Software Inc.</author>
-        <date>2016/07/20 01:19:36</date>
+        <date>2017/09/03 11:20:59</date>
         <comment/>
     </revision>
     <name>fdcache</name>
@@ -57,6 +57,7 @@
                 <pre-load-enabled>true</pre-load-enabled>
                 <pre-load-fetch-size>0</pre-load-fetch-size>
                 <pre-load-handles>true</pre-load-handles>
+                <concept-ttl>-1</concept-ttl>
                 <domain-object>
                     <cache-limited>true</cache-limited>
                     <evict-on-update>true</evict-on-update>
@@ -344,8 +345,8 @@
     <property-group>
         <property-group comment="" name="auth">
             <property name="be.mm.auth.type" value="file"/>
-            <property name="be.mm.auth.file.location" value="/usr/local/tibco_be/be/5.2/mm/config/users.pwd"/>
-            <property name="java.security.auth.login.config" value="/usr/local/tibco_be/be/5.2/mm/config/jaas-config.config"/>
+            <property name="be.mm.auth.file.location" value="/usr/local/tibco_be/be/5.4/mm/config/users.pwd"/>
+            <property name="java.security.auth.login.config" value="/usr/local/tibco_be/be/5.4/mm/config/jaas-config.config"/>
         </property-group>
     </property-group>
 </cluster>

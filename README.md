@@ -55,7 +55,7 @@ These steps added the test-service component and the assert catalog functions to
  - Highlight the project root **FraudDetectionCache** in the Studio Explorer, then pull down menu **Project -> Edit Global Variables**
  - Add Group **TestService**
  - Under **TestService** group, add variable **Host** = localhost
- - Under **Testservice** group, add variable **Port** = 8989
+ - Under **TestService** group, add variable **Port** = 8989
 
 This port will be used by the test driver `FraudDetectionTest` to send test requests via HTTP.
 

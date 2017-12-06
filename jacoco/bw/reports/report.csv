@@ -1,0 +1,20 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+BusinessWorks/ESEFeed,default,AddressIPC_JMS_Listen.process,3,11,0,0,0,0,3,11,3,11
+BusinessWorks/ESEFeed,default,CustomLogger.process,0,5,0,0,0,0,0,5,0,5
+BusinessWorks/ESEFeed,default,LogInit.process,3,0,0,0,0,0,3,0,3,0
+BusinessWorks/ESEFeed,default,LogMsg.process,0,6,0,0,0,0,0,6,0,6
+BusinessWorks/ESEFeed,default,ProcessAddress.process,3,23,0,0,0,0,3,23,3,23
+BusinessWorks/ESEFeed,default,SHARE_call subproc.process,0,14,0,0,0,0,0,14,0,14
+BusinessWorks/ESEFeed,default,SetEventUUID.process,5,0,0,0,0,0,5,0,5,0
+BusinessWorks/ESEFeed,default,StartUpInit.process,5,0,0,0,0,0,5,0,5,0
+BusinessWorks/ESEFeed,default,call_getShareInformation.process,0,14,0,0,0,0,0,14,0,14
+BusinessWorks/ESEFeed,default,call_validateAddress.process,2,11,0,0,0,0,2,11,2,11
+BusinessWorks/ESEFeed,Processes.Sub,CallSHARE.process,0,5,0,0,0,0,0,5,0,5
+BusinessWorks/ESEFeed,Processes.Sub,CheckErrorRecoverable.process,0,3,0,0,0,0,0,3,0,3
+BusinessWorks/ESEFeed,Processes.Sub.Retry,Retry_AS_ADDRESS_Get.process,0,7,0,0,0,0,0,7,0,7
+BusinessWorks/ESEFeed,Processes.Sub.Retry,Retry_AS_ADDRESS_IPC_Take.process,0,0,0,0,0,0,0,0,0,0
+BusinessWorks/ESEFeed,Processes.Sub.Retry,Retry_AS_ADDRESS_Put.process,0,7,0,0,0,0,0,7,0,7
+BusinessWorks/ESEFeed,Processes.Sub.Retry,Retry_AS_ADDRESS_Snapshot.process,3,7,0,0,0,0,3,7,3,7
+BusinessWorks/ESEFeed,Processes.Sub.Retry,Retry_AS_ADDRESS_Take.process,0,0,0,0,0,0,0,0,0,0
+BusinessWorks/ESEFeed,Processes.Sub.Retry,Retry_AS_PIECE_ADDRESS_Put.process,0,7,0,0,0,0,0,7,0,7
+BusinessWorks/ESEFeed,Processes.Sub.Retry,Retry_SHARE_HTTP.process,0,10,0,0,0,0,0,10,0,10
