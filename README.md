@@ -1,4 +1,6 @@
 # BE-Test Tutorial
+NOTE: For latest update on CICD of BusinessEvents with Maven, jUnit and jacoco, see the newer project [be_sample](https://github.com/yxuco/be_sample)
+
 This tutorial is a step-by-step guide for unit test of [TIBCO BusinessEvents](https://docs.tibco.com/products/tibco-businessevents-5-2-0) (BE) applications.  It builds 2 projects from scratch to demonstrate steps for adding unit tests to a BusinessEvents sample project:
  - FraudDetectionCache, which is a sample from BusinessEvents 5.2.  This tutorial will add unit tests for the rules and rule functions to this project.
  - FraudDetectionTest, which is a Maven project for driving the unit tests using JUnit.
